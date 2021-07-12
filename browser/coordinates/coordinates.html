@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinates</title>
+    <style>
+        body {
+            background-color: black;
+            /* overflow:hidden; unabled scrolling! */
+        }
+        div {
+            background-color: bisque;
+            width: 300px;
+            height: 300px;
+            margin: 10px;
+        }
+        .orange {
+            background-color: orange;
+        }
+        .buttons {
+            right: 10px;
+            position: fixed;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class='buttons'>
+        <button class='scrollBy'>Scroll by 100px(y)</button>
+        <button class='scrollTo'>Scroll to 100px(y)</button>
+        <button class='scrollInto'>Scroll into special</button>
+    </nav>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class='orange'></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <script>
+        const orangeDiv = document.querySelector('.orange');
+        const scrollBy = document.querySelector('.scrollBy');
+        const scrollTo = document.querySelector('.scrollTo');
+        const scrollInto = document.querySelector('.scrollInto');
+
+        orangeDiv.addEventListener('click', event => {
+            const rect = event.target.getBoundingClientRect();
+            console.dir(rect)
+            console.log(`client: ${event.clientX}, ${event.clientY}`);
+            console.log(`page: ${event.pageX}, ${event.pageY}`);
+        });
+
+        scrollBy.addEventListener('click', event => {
+            window.scrollBy({
+                top: 100,
+                left: 0,
+                behavior: 'smooth'
+            });
+        })
+
+        scrollTo.addEventListener('click', event => {
+            window.scrollTo(0, 100)
+        })
+
+        scrollInto.addEventListener('click', event => {
+            orangeDiv.scrollIntoView();
+        })
+
+    </script>
+</body>
+</html>
