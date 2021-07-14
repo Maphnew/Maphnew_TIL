@@ -6,7 +6,7 @@
 
    - link: https://github.com/qmk/qmk_distro_msys/releases/tag/1.4.3
 
-     <img src='./images/qmk_toolbox.png' width='50%' height='50%'>
+     <img src='./images/qmk_toolbox.png' alt='qmk_toolbox' width='50%' height='50%'>
 
    - You can see 'HID console connected: ...'.
 
@@ -14,11 +14,11 @@
 
    - https://docs.qmk.fm/#/newbs_getting_started
 
-     <img src='./images/qmk_msys.png' width='50%'>
+     <img src='./images/qmk_msys.png' alt='qmk_msys' width='50%'>
 
    - Run 'qmk setup' and select 'y'.
 
-     <img src='./images/install_qmk_firmware.png' width='50%'>
+     <img src='./images/install_qmk_firmware.png' alt='install_qmk_firmware' width='50%'>
 
 1. Clone and edit firmware
 
@@ -30,7 +30,7 @@
    qmk compile -kb <keyboard> -km default
    ```
 
-    <img src='./images/compile.png' width='50%'>
+    <img src='./images/compile.png' alt='compile' width='50%'>
 
    - You can find the .hex file on qmk_firmware directory.
 
@@ -38,12 +38,12 @@
 
    - Open the hex file
 
-     <img src='./images/open.png' width='50%'>
+     <img src='./images/open.png' alt='open' width='50%'>
 
    - Double click the reset button on your keyboard or receiver
 
-     <img src='./images/reset.png' width='50%'>
+     <img src='./images/reset.png' alt='reset' width='50%'>
 
    - flash
 
-      <img src='./images/done.png' width='50%'>
+      <img src='./images/done.png' alt='done' width='50%'>
