@@ -4,25 +4,30 @@ const button = document.querySelector('button')
 
 const addItem = () => {
     if(!input.value){
-        return
+        input.focus();
+        return;
     }
     const item = document.createElement('li');
     const bin = document.createElement('img');
+    item.classList.add('item__row')
     bin.src = 'bin.png';
     bin.style.height = '15px';
-    bin.style.verticalAlign = 'middle';
     bin.classList.add('bin');
     bin.addEventListener('click', e => {
         e.target.parentElement.remove();
     })
-    item.appendChild(document.createTextNode(input.value));
+    const name = document.createElement('span')
+    name.innerText = input.value
+    item.appendChild(name);
     item.appendChild(bin);
     list.appendChild(item)
+    item.scrollIntoView({ block: 'center' });
     input.value = '';
+    input.focus();
 }
 
 input.addEventListener('keyup', (evt) => {
-    if (evt.key === 'Enter' || evt.key === 13) {
+    if (evt.key === 'Enter' || evt.keyCode === 13) {
         addItem()
     }
 });
