@@ -28,10 +28,10 @@ const createItem = (text) => {
 
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add('item__delete');
-    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-    deleteBtn.addEventListener('click', () => {
-        items.removeChild(itemRow);
-    })
+    deleteBtn.innerHTML = '<i class="fas fa-trash-alt item__delete__icon"></i>';
+    // deleteBtn.addEventListener('click', () => {
+    //     items.removeChild(itemRow);
+    // })
 
     const itemDivider = document.createElement('div')
     itemDivider.classList.add('item__divider');
@@ -52,5 +52,11 @@ addBtn.addEventListener('click', () => {
 input.addEventListener('keyup', evt => {
     if(evt.key === 'Enter' || evt.keyCode === 13) {
         onAdd();
+    }
+})
+
+items.addEventListener('click', evt => {
+    if(evt.target.className.includes('item__delete__icon')) {
+        items.removeChild(evt.target.closest('.item__row'))
     }
 })
