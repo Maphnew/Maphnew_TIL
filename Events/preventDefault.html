@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreventDefault</title>
+    <style>
+        div {
+            width: 150px;
+            height: 150px;
+            background-color: tomato;
+            margin: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+        <input type="checkbox">
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <script>
+        const checkbox = document.querySelector('input[type="checkbox"]');
+        document.addEventListener('wheel', e => {
+            console.log('Scrolling')
+            e.preventDefault();
+        },{
+            passive: false
+        })
+        checkbox.addEventListener('click', e => {
+            console.log('Checked!')
+            e.preventDefault();
+        })
+    </script>
+</body>
+</html>
