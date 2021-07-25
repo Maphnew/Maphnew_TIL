@@ -14,34 +14,22 @@ const onAdd = () => {
     input.value = '';
     input.focus();
 }
-
+let id = 0; // UUID
 const createItem = (text) => {
     const itemRow = document.createElement('li');
     itemRow.classList.add('item__row');
+    itemRow.setAttribute('data-id', id);
 
-    const item = document.createElement('div');
-    item.classList.add('item');
-
-    const name = document.createElement('span');
-    name.classList.add('item__name');
-    name.innerText = text;
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('item__delete');
-    deleteBtn.innerHTML = '<i class="fas fa-trash-alt item__delete__icon"></i>';
-    // deleteBtn.addEventListener('click', () => {
-    //     items.removeChild(itemRow);
-    // })
-
-    const itemDivider = document.createElement('div')
-    itemDivider.classList.add('item__divider');
-
-    item.appendChild(name);
-    item.appendChild(deleteBtn);
-
-    itemRow.appendChild(item);
-    itemRow.appendChild(itemDivider);
-
+    itemRow.innerHTML = `
+        <div class="item">
+            <span class="item__name">${text}</span>
+            <button class="item__delete">
+                <i class="fas fa-trash-alt" data-id=${id}></i>
+            </button>
+        </div>
+        <div class="item__divider"></div>
+    `;
+    id++;
     return itemRow;
 }
 
@@ -56,7 +44,10 @@ input.addEventListener('keyup', evt => {
 })
 
 items.addEventListener('click', evt => {
-    if(evt.target.className.includes('item__delete__icon')) {
-        items.removeChild(evt.target.closest('.item__row'))
+    const dataId = evt.target.dataset.id;
+    if(dataId) {
+        const toBeDeleted = document.querySelector(`.item__row[data-id="${dataId}"]`);
+        toBeDeleted.remove();
     }
+
 })
