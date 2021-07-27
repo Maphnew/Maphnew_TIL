@@ -1,0 +1,38 @@
+.background {
+  width: 100%;
+  border-radius: 50px;
+}
+.fixed {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  height: 50px;
+  border: solid 3px black;
+}
+button.play {
+  margin-top: 10px;
+  width: 50px;
+  border-radius: 10px;
+  font-size: large;
+  outline: none;
+  background-color: wheat;
+  color: black;
+  cursor: pointer;
+}
+.timer {
+  top: 80px;
+  background-color: white;
+  border-radius: 10px;
+  width: 150px;
+}
+span {
+  font-size: 32px;
+}
+.counter {
+  top: 145px;
+  width: 50px;
+  background-color: tomato;
+  border-radius: 50px;
+  color: white;
+}
