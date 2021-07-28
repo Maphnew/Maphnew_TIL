@@ -1,24 +1,33 @@
+.body {
+  box-sizing: border-box;
+}
+
 .background {
-  width: 100%;
+  width: 900px;
   border-radius: 50px;
 }
 .fixed {
-  position: fixed;
-  left: 50%;
+  position: absolute;
+  left: 450px;
   transform: translateX(-50%);
   text-align: center;
   height: 50px;
   border: solid 3px black;
 }
-button.play {
-  margin-top: 10px;
+.play {
+  top: 15px;
   width: 50px;
   border-radius: 10px;
-  font-size: large;
-  outline: none;
   background-color: wheat;
-  color: black;
   cursor: pointer;
+}
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  font-size: large;
+  background: transparent;
+  margin-top: 25%;
 }
 .timer {
   top: 80px;
@@ -35,4 +44,19 @@ span {
   background-color: tomato;
   border-radius: 50px;
   color: white;
+}
+
+.field {
+  display: block;
+  position: absolute;
+  top: 280px;
+  height: 230px;
+  width: 900px;
+}
+
+.bug,
+.carrot {
+  position: absolute;
+  display: inline;
+  cursor: pointer;
 }
