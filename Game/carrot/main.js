@@ -1,4 +1,13 @@
 const field = document.querySelector('.field');
+const playStopBtn = document.querySelector('.play');
+const bgm = document.querySelector('#bgm');
+const playIcon = document.querySelector('.playIcon');
+const secTimer = document.querySelector('.sec');
+const countNum = document.querySelector('.countNum');
+const carrotSound = document.querySelector('#carrotSound')
+const bugSound = document.querySelector('#bugSound')
+const winSound = document.querySelector('#win')
+const alertSound = document.querySelector('#alert')
 
 const createCatcher = (name) => {
     const catcher = document.createElement('img');
@@ -7,8 +16,6 @@ const createCatcher = (name) => {
     catcher.style.top = randomPosition().top;
     catcher.style.left = randomPosition().left;
     catcher.classList.add(name)
-    catcher.classList.add('catcher')
-
     return catcher;
 }
 
@@ -34,9 +41,41 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 field.addEventListener('click', e => {
-    console.log(e.target)
-    if(e.target.classList.contains('catcher')) {
+    if(e.target.classList.contains('carrot')) {
+        carrotSound.play();
+        countNum.innerText++;
         e.target.remove();
     }
+    if(e.target.classList.contains('bug')) {
+        bugSound.play();
+        stopGame();
+    }
     
+})
+const startGame = () => {
+    bgm.play();
+    playIcon.innerHTML = '<i class="fas fa-stop"></i>';
+    secTimer.innerText = 10;
+    
+    countInterval = setInterval(() => {
+        secTimer.innerText--
+        if(secTimer.innerText == '0') {
+            stopGame();
+        }
+        secTimer.innerText = secTimer.innerText.padStart(2, 0);
+    }, 1000)
+}
+const stopGame = () => {
+    bgm.pause();
+    playIcon.innerHTML = '<i class="fas fa-play"></i>';
+    secTimer.innerText = 10;
+    clearInterval(countInterval);
+}
+let countInterval;
+playStopBtn.addEventListener('click', e => {
+    if(e.target.classList.contains('fa-play')) {
+        startGame();
+    }else{
+        stopGame();
+    }
 })

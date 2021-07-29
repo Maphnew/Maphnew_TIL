@@ -8,19 +8,20 @@
     <title>Game</title>
     <link rel="stylesheet" href="style.css">
     <script src='main.js' defer></script>
+    <link rel="shortcut icon" href="img/bug.png" type="image/x-icon">
 </head>
 <body>
     <div class="background">
         <img alt='background' class='background' src='img/background.png' />
         <div class="play fixed">
-            <button>
+            <button class="playIcon">
                 <i class="fas fa-play"></i>
             </button>
         </div>
         <div class="timer fixed">
             <span class="min">00</span>
             <span>:</span>
-            <span class="sec">00</span>
+            <span class="sec">10</span>
         </div>
         <div class="counter fixed">
             <span class="countNum">0</span>
@@ -28,6 +29,13 @@
         <div class="field">
 
         </div>
+    </div>
+    <div class="bgm">
+        <audio id="bgm" src="sound/bg.mp3"></audio>
+        <audio id="carrotSound" src="sound/carrot_pull.mp3"></audio>
+        <audio id="bugSound" src="sound/bug_pull.mp3"></audio>
+        <audio id="win" src="sound/game_win.mp3"></audio>
+        <audio id="alert" src="sound/alert.wav"></audio>
     </div>
     
 </body>
