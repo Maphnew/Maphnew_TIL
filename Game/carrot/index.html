@@ -13,9 +13,9 @@
 <body>
     <div class="background">
         <img alt='background' class='background' src='img/background.png' />
-        <div class="play fixed">
-            <button class="playIcon">
-                <i class="fas fa-play"></i>
+        <div class="play playBtn fixed">
+            <button class="playIcon play">
+                <i class="fas fa-play play"></i>
             </button>
         </div>
         <div class="timer fixed">
@@ -37,6 +37,11 @@
         <audio id="win" src="sound/game_win.mp3"></audio>
         <audio id="alert" src="sound/alert.wav"></audio>
     </div>
-    
+    <div class="refresher" style="display: none;">
+        <span class="resultText"></span>
+        <button class="refresher__button refresh">
+            <i class="refresh fas fa-sync-alt"></i>    
+        </button>
+    </div>
 </body>
 </html>
