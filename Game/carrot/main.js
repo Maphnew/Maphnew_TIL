@@ -10,6 +10,7 @@ const winSound = document.querySelector('#win')
 const alertSound = document.querySelector('#alert')
 const refresher = document.querySelector('.refresher')
 const refreshBtn = document.querySelector('.refresher__button')
+let countInterval;
 
 const createCatcher = (name) => {
     const catcher = document.createElement('img');
@@ -94,7 +95,7 @@ const stopGame = () => {
     playIcon.innerHTML = '<i class="fas fa-play play"></i>';
     clearInterval(countInterval);
 }
-let countInterval;
+
 playStopBtn.addEventListener('click', e => {
     if(e.target.classList.contains('play')) {
         startGame();
