@@ -26,6 +26,7 @@ body {
 }
 
 .game__button {
+  display: block;
   width: 60px;
   height: 60px;
   background-color: wheat;
@@ -83,6 +84,10 @@ body {
 }
 
 .pop-up--hide {
+  display: none;
+}
+
+.button--hide {
   display: none;
 }
 

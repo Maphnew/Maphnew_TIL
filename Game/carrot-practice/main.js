@@ -10,6 +10,9 @@ const fieldRect = field.getBoundingClientRect();
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
+const popUp = document.querySelector('.pop-up');
+const popUpMessage = document.querySelector('.pop-up__message');
+const popUpRefresh = document.querySelector('.pop-up__refresh');
 
 let started = false;
 let score = 0;
@@ -24,6 +27,16 @@ gameBtn.addEventListener('click', () => {
     started = !started;
 })
 
+popUpRefresh.addEventListener('click', () => {
+    refreshGame();
+})
+
+function refreshGame() {
+    hidePopUp();
+    showStartButton();
+    initGame();
+}
+
 function startGame() {
     initGame();
     showStopButton();
@@ -32,7 +45,29 @@ function startGame() {
 }
 
 function stopGame() {
+    showPopUp('REPLAY?');
+    stopGameTimer();
+    hideGameButton();
+}
 
+function hideGameButton() {
+    gameBtn.style.visibility='hidden';
+}
+
+function showPopUp(text){
+    popUpMessage.innerText = text;
+    popUp.classList.remove('pop-up--hide');
+}
+
+function hidePopUp(){
+    popUp.classList.add('pop-up--hide');
+}
+
+function showStartButton() {
+    gameBtn.style.visibility='visible';
+    const icon = gameBtn.querySelector('.fa-stop');
+    icon.classList.add('fa-play');
+    icon.classList.remove('fa-stop');
 }
 
 function showStopButton() {
@@ -56,6 +91,10 @@ function startGameTimer() {
         }
         updateTimerText(--remainingTimeSec)
     }, 1000)
+}
+
+function stopGameTimer() {
+    clearInterval(timer);
 }
 
 function updateTimerText(time) {
