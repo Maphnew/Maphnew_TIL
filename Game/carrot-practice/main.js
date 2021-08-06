@@ -18,6 +18,16 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
+field.addEventListener('click', (event) => {
+    if(event.target.className === 'carrot'){
+        event.target.remove();
+        reduceScore();
+    }else if(event.target.className === 'bug'){
+        stopGame();
+        started = !started;
+    }
+})
+
 gameBtn.addEventListener('click', () => {
     if(started){
         stopGame();
@@ -30,6 +40,20 @@ gameBtn.addEventListener('click', () => {
 popUpRefresh.addEventListener('click', () => {
     refreshGame();
 })
+
+function reduceScore() {
+    gameScore.innerText--;
+    if(gameScore.innerText <= 0){
+        winTheGame();
+    }
+}
+
+function winTheGame() {
+    showPopUp('🎊 You won! 🎉');
+    stopGameTimer();
+    hideGameButton();
+    started = !started;
+}
 
 function refreshGame() {
     hidePopUp();
