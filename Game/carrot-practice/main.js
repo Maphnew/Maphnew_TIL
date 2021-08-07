@@ -14,25 +14,25 @@ const popUp = document.querySelector('.pop-up');
 const popUpMessage = document.querySelector('.pop-up__message');
 const popUpRefresh = document.querySelector('.pop-up__refresh');
 
+const carrotSound = new Audio('./sound/carrot_pull.mp3');
+const bugSound = new Audio('./sound/bug_pull.mp3');
+const alertSound = new Audio('./sound/alert.wav');
+const bgSound = new Audio('./sound/bg.mp3');
+const winSound = new Audio('./sound/game_win.mp3');
+
 let started = false;
 let score = 0;
 let timer = undefined;
 
-field.addEventListener('click', (event) => {
-    if(event.target.className === 'carrot'){
-        event.target.remove();
-        reduceScore();
-    }else if(event.target.className === 'bug'){
-        stopGame();
-        started = !started;
-    }
-})
+field.addEventListener('click', onFieldClick)
 
 gameBtn.addEventListener('click', () => {
     if(started){
         stopGame();
+        stopSound(bgSound);
     }else{
         startGame();
+        playSound(bgSound);
     }
     started = !started;
 })
@@ -50,6 +50,8 @@ function reduceScore() {
 
 function winTheGame() {
     showPopUp('🎊 You won! 🎉');
+    stopSound(bgSound);
+    playSound(winSound)
     stopGameTimer();
     hideGameButton();
     started = !started;
@@ -111,6 +113,8 @@ function startGameTimer() {
     timer = setInterval(() => {
         if(remainingTimeSec <= 0) {
             clearInterval(timer);
+            stopGame();
+            stopSound(bgSound);
             return;
         }
         updateTimerText(--remainingTimeSec)
@@ -133,6 +137,31 @@ function initGame() {
     // 벌레 당근 생성 뒤 필드에 추가
     addItem('carrot', CARROT_COUNT, 'img/carrot.png');
     addItem('bug', BUG_COUNT, 'img/bug.png');
+}
+
+function onFieldClick(event) {
+    if(!started){
+        return;
+    }
+    const target = event.target;
+    if(target.matches('.carrot')){
+        target.remove();
+        reduceScore();
+        playSound(carrotSound);
+    }else if(target.matches('.bug')){
+        stopGame();
+        playSound(bugSound);
+        stopSound(bgSound);
+        started = !started;
+    }
+}
+
+function playSound(sound) {
+    sound.play();
+}
+
+function stopSound(sound) {
+    sound.pause();
 }
 
 function addItem(className, count, imgPath) {
