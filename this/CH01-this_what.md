@@ -37,7 +37,7 @@ identify.call( you ); // READER
 speak.call( me ); // Hello, I'm KYLE
 speak.call( you ); // Hello, I'm READER
 ```
-- ( function.prototype.call(): 함수 호출 및 `this`를 위한 문맥 지정에 call 사용 예제 - https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Function/call#%ED%95%A8%EC%88%98_%ED%98%B8%EC%B6%9C_%EB%B0%8F_this%EB%A5%BC_%EC%9C%84%ED%95%9C_%EB%AC%B8%EB%A7%A5_%EC%A7%80%EC%A0%95%EC%97%90_call_%EC%82%AC%EC%9A%A9 )
+- ( [function.prototype.call(): 함수 호출 및 `this`를 위한 문맥 지정에 call 사용 예제](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Function/call#%ED%95%A8%EC%88%98_%ED%98%B8%EC%B6%9C_%EB%B0%8F_this%EB%A5%BC_%EC%9C%84%ED%95%9C_%EB%AC%B8%EB%A7%A5_%EC%A7%80%EC%A0%95%EC%97%90_call_%EC%82%AC%EC%9A%A9) )
 
 - this를 안 쓰고 identify()와 speak() 함수에 콘텍스트 객체를 명시할 수도 있다.
 
