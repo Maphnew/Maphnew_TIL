@@ -86,4 +86,5 @@ console.log( strPrimitive.charAt(3) ); // "m"
 - `Objects`, `Arrays`, `Functions`, `RegExps`는 형식(리터럴/생성자)과 무관하게 모두 객체다.
 - `Error`객체는 예외가 던져지면 알아서 생성되니 명시적으로 생성할 일은 드물다.
 
-## 3.3 내용
+## 3.3 내용 Contents
+- 객체는 특정한 위치에 프로퍼티로 Contents가 채워진다. 
