@@ -88,3 +88,24 @@ console.log( strPrimitive.charAt(3) ); // "m"
 
 ## 3.3 내용 Contents
 - 객체는 특정한 위치에 프로퍼티로 Contents가 채워진다. 
+
+### 3.3.1 계산된 프로퍼티명
+- ES6부터는 계산된 프로퍼티명`Computed Property Names`이라는 기능이 추가됐는데, 객체 리터럴 선언 구문의 키 이름 부분에 해당 표현식을 넣고 `[ ]`로 감싸면 된다.
+```JS
+var prefix = "foo";
+var myObject = {
+    [prefix + "bar"]: "hello",
+    [prefix + "baz"]: "world"
+};
+myObject["foobar"]; // hello
+myObject["foobaz"]; // world
+```
+- 계산된 프로퍼티명은 ES6 심볼에서 가장 많이 사용하지 않을까 싶다.
+- 심볼은 새로운 원시 데이터 타입으로 불분명하고 예측 불가능한 값(기술적으로는 문자열 값)을 가진다. 심볼의 실제 값(이론적으로는 자바스크립트 엔진마다 제각각일 수 있다)을 직접 다룰 일은 거의 없으므로 Symbol.Something 같은 심볼명을 사용하면 된다.
+```JS
+var myObject = {
+    [Symbol.Something]: "hello wolrd"
+}
+```
+
+### 3.3.2 프로퍼티 vs 메서드
