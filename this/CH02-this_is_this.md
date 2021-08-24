@@ -218,3 +218,5 @@ foo.call( obj ); // 2
 
 - this 바인딩을 안전하게 하고 싶으면 `∅ = Object.create(null)`처럼 DMZ 객체를 자리 끼움 값으로 바꿔넣어 뜻하지 않은 부수 효과가 전역 객체에서 발생하지 않게 한다.
 - ES6 화살표 함수는 표준 바인딩 규칙을 무시하고 렉시컬 스코프로 this를 바인딩 한다. 즉, 에두른 함수 호출로부터 어떤 값이든 this 바인딩을 상속한다. 이는 ES6 이전 시절 self = this 구문을 대체한 장치다.
+
+- #ref: 같은 책, 더 잘 정리된 글 - https://jeonghwan-kim.github.io/2017/10/22/js-context-binding.html
