@@ -121,3 +121,34 @@ var myObject = {
 - 얕은 복사를 할 경우 환형 참조`Circular Reference` 형태가 되어 무한 복사의 구렁텅이에 빠질 수 있다.
 - 깊은 복사 방법인 'JSON-Safe 객체'는 쉽게 복사할 수 있으므로 하나의 대안이 될 수는 있다.
 - 한편, 얕은 복사는 이해하기 쉽고 별다른 이슈가 없기에 ES6부터는 Object.assign() 메서드를 제공한다.
+
+### 3.3.5 프로퍼티 서술자
+- ES5부터 모든 프로퍼티는 프로퍼티 서술자`Property Descriptor`로 표현된다.
+```JS
+var myObject = {
+    a: 2
+};
+Object.getOwnPropertyDescriptor( myObject, "a" );
+// {
+// value: 2,
+// writable: true,
+// enumerable: true,
+// configurable: true
+// }
+```
+- 평범한 객체 프로퍼티 a의 프로퍼티 서술자(또는 데이터 서술자)를 조회해보니 writable, enumerable, configurable의 세 가지 특성이 더 있다.
+- `Object.defineProperty()`로 새로운 프로퍼티를 추가하거나 기존 프로퍼티의 특성을 수정할 수 있다.(configurable이 true일 때만 가능)
+```JS
+var myObject = {};
+Object.defineProperty( myObject, "a", {
+    value: 2,
+    writable: true,
+    enumerable: true,
+    configurable: true
+} );
+myObject.a; // 2
+```
+
+- 쓰기가능/설정가능/열거가능 특성에 따라 프로퍼티의 성격이 바뀐다.
+
+### 3.3.6 불변성
