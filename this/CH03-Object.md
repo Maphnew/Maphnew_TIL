@@ -191,3 +191,30 @@ myObject.b; // undefined
 - 동결은 가장 높은 단계의 불변성을 적용한 것으로 객체와 직속 프로퍼티에 어떤 변경도 원천 봉쇄한다.
 
 ### 3.3.7 [[Get]]
+- 프로퍼티에 접근하기까지의 세부 과정은 미묘하면서도 중요하다.
+```JS
+var myObject = {
+    a: 2
+};
+myObject.a; // 2
+```
+- 명세에 따르면 실제로 이 코드는 myObject에 대해 [[Get]] 연산을 한다. ( [[Get]]() 같은 함수 호출 )
+- 기본으로 [[Get]] 연산은 주어진 이름의 프로퍼티를 먼저 찾아보고 있으면 그 값을 반환한다. 프로퍼티를 찾아보고 없으면 [[Get]] 연산 알고리즘은 [[Prototype]] 연쇄 순회를 하게 된다.
+- 주어진 프로퍼티 값을 어떻게 해도 찾을 수 없으면 [[Get]] 연산은 undefined를 반환한다.
+```JS
+var myObject = {
+    a: 2
+};
+myObject.b; // undefined
+```
+- 식별자명으로 변수를 참조할 땐 작동 방식이 다르다. 해당하는 렉시컬 스코프 내에 없는 변수를 참조하면 객체 프로퍼티처럼 undefined가 반환되지 않고 ReferenceError가 발생한다.
+```JS
+var myObject = {
+    a: undefined
+};
+myObject.a; // undefined
+myObject.b; // undefined
+```
+- 값만 봐서는 둘 다 undefined라 분산이 안 된다. 하지만 내부적으로 [[Get]] 연산을 수행할 테니 대체로 myObject.b가 myObject.a보다 '더 일을 많이 한다'고 볼 수 있다. 이를 구분하려면 hasOwnProperty 메서드를 통해 알 수 있다.
+
+### 3.3.8 [[Put]]
