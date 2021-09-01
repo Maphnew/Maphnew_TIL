@@ -152,3 +152,42 @@ myObject.a; // 2
 - 쓰기가능/설정가능/열거가능 특성에 따라 프로퍼티의 성격이 바뀐다.
 
 ### 3.3.6 불변성
+- 프로퍼티/객체가 변경되지 않게 해야 할 경우 ES5부터 이런 처리를 할 수 있는 여러 가지 방법일 제공하지만, 얕은 불변성`Shallow Immutability`만 지원한다. 즉, 객체 자신과 직속 프로퍼티 특성만 불변으로 만들 뿐 다른 객체(배열, 객체, 함수)를 가리키는 레퍼런스가 있을 때 해당 객체의 내용까지 불변으로 만들지는 못한다.
+```JS
+myImmutableObject.foo; // [1,2,3]
+myImmutableObject.foo.push( 4 );
+myImmutableObject.foo; // [1,2,3,4]
+```
+- foo를 분변 객체로 바꾸려면 아래의 방법이 있다.
+1. 객체 상수
+- `writable:false`와 `configuration:false`를 같이 쓰면 프로퍼티를 상수처럼 쓸 수 있다.
+```JS
+var myObject = {};
+Object.defineProperty( myObject, "FAVORITE_NUMBER", {
+    value: 42,
+    writable: false,
+    configurable: false
+});
+```
+
+2. 확장 금지
+- 객체에 더는 프로퍼티를 추가할 수 없게 차단하고 현재 프로퍼티는 있는 그대로 놔두고 싶을 때 `Object.preventExtensions()`를 호출한다.
+```JS
+var myObject = {
+    a: 2
+};
+Object.preventExtensions( myObject );
+
+myObject.b = 3;
+myObject.b; // undefined
+```
+- 비엄격 모드에선 프로퍼티 b를 추가해도 조용히 실패하고 엄격 모드에서는 TypeError가 발생한다.
+
+3. 봉인
+- `Object.seal()`는 봉인된 객체를 생성한다. 즉, 어떤 객체에 대해 `Object.preventExtensions()`를 실행하고 프로퍼티를 전부 `configurable:false` 처리한다. 결과적으로 프로퍼티를 추가할 수 없고 기존 프로퍼티를 재설정하거나 삭제할 수도 없다. 물론 값을 바꿀 수 있다.
+
+4. 동결
+- `Object.freeze()`는 객체를 꽁꽁 얼린다. 앞에서 설명한 Object.seal()을 적용하고 '데이터 접근자`Data Accessor`' 프로퍼티를 모두 `writable:false` 처리해서 값도 못 바꾸게 한다.
+- 동결은 가장 높은 단계의 불변성을 적용한 것으로 객체와 직속 프로퍼티에 어떤 변경도 원천 봉쇄한다.
+
+### 3.3.7 [[Get]]
