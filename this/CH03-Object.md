@@ -347,3 +347,83 @@ Object.getOwnPropertyNames( myObject ); // ["a", "b"]
 - in 연산자와 결과가 동등한 프로퍼티 전체 리스트를 조회하는 기능은 (지금은) 없다. 단계마다 Object.keys()에서 열거 가능한 프로퍼티 리스트를 포착하여 재귀적으로 주어진 객체의 [[Property]] 연쇄를 순회하는 식의 로직을 구현하여 대략 비슷한 유틸리티를 만들어 쓰면 된다.
 
 ## 3.4 순회
+- for...in 루프는 열거 가능한 객체 프로퍼티를 ([[Prototype]] 연쇄도 포함하여) 차례로 순회한다.
+- 프로퍼티 값을 순회하려면 어떻게 할까? 다음 코드를 보자.
+```JS
+var myArray = [1,2,3];
+for (var i = 0; i < myArray.length; i ++) {
+    console.log( myArray[i] );
+}
+// 1 2 3
+```
+- 이 코드는 인덱스를 순회하면서 해당 값(myArray[i])을 사용할 뿐 값 자체를 순회하는 것은 아니다.
+- ES5부터는 forEach(), every(), some() 등의 배열 관련 순회 헬퍼가 도입됐다. 이 함수들은 배열의 각 원소에 적용할 콜백 함수를 인자로 받으며, 원소별로 반환 값을 처리하는 로직만 다르다.
+- forEach()는 배열 전체 값을 순회하지만 콜백 함수의 반환 값은 무시한다.
+- every()는 배열 끝까지 또는 콜백 함수가 false(또는 'falsy'값)를 반환할 때까지 순회하며 some()은 이와 정반대로 배열 끝까지 또는 콜백 함수가 true(또는 'truthy'값)를 반환할 때까지 순회한다. every()와 some()의 이러한 특별한 반환 값은 일반적인 for 루프의 break문처럼 끝까지 순회하기 전에 일찌감치 순회를 끝내는 데 쓰인다.
+- for...in 루프를 이용한 객체 순회는 실제로 열거 가능한 프로퍼티만 순회하고 그 값을 얻으려면 일일이 프로퍼티에 접근해야 하므로 간접적인 값 추출이다.
+- 배열 인덱스(나 객체 프로퍼티)가 아닌 값을 직접 순회하기 위해 ES6부터 배열(자체 커스텀 순회자가 정의된 객체) 순회용 for...of 구문을 제공한다.
+```JS
+var myArray = [ 1,2,3 ];
+for (var v of myArray) {
+    console.log( v );
+}
+// 1
+// 2
+// 3
+```
+- for...of 루프는 순회할 원소의 순회자 객체`Iterator Object`(명세식으로 말하면 @@iterator라는 기본 내부 함수)가 있어야 한다. 순회당 한 번씩 이 순회자 객체의 next() 메서드를 호출하여 연속적으로 반환 값을 순회한다.
+- 배열은 @@iterator가 내장된 덕분에 다음 예제에서 보다시피 손쉽게 for...of 루프를 사용할 수 있다. 내장 @@iterator를 이용하여 수동으로 배열을 순회하면서 작동 원리를 살펴보자.
+```JS
+var myArray = [ 1,2,3 ]l
+var it = myArray[Symbol.iterator]();
+
+it.next(); // { value:1, done:false }
+it.next(); // { value:2, done:false }
+it.next(); // { value:3, done:false }
+it.next(); // { done:true }
+```
+- 순회자의 next()를 호출한 결괏값은 { value: , done: } 형태의 객체로, 여기서 value는 현재 순회 값, done은 다음에 순회할 값의 유무를 나타내는 불리언 값이다.
+- 3이 반환됐는데도 done: false인 것은 ES6 제너레이터`Generator`함수의 의미 때문이다.
+- 배열은 for...of 루프 내에서 알아서 순회하지만, 일반 객체는 내부에 @@iterator가 없다. ES6에서 @@iterator를 의도적으로 누락시킨 이유는 앞으로 등장할 새로운 타입의 객체에서 문제의 소지가 될 수 있나는 점을 생각해보면 차라리 다행스러운 일인 것 같다.
+- 순회하려는 객체의 기본 @@iterator를 손수 정의할 수도 있다. 다음 예제를 보자.
+```JS
+var myObject = {
+    a: 2,
+    b: 3
+};
+Object.definePropery( myObject, Symbol.iterator, {
+   enumerable: false,
+   writable: false,
+   configurable: true,
+   value: function() {
+        var o = this;
+        var idx = 0;
+        var ks = Object.keys( o );
+        return {
+            next: function() {
+                return {
+                    return {
+                        value: o[ks[idx++]],
+                        done: (idx > ks.length)
+                    }
+                };
+            }
+        };
+   }
+});
+// myObject를 수동으로 순회한다.
+var it = myObject[Symbol.iterator]();
+it.next(); // { value:2, done:false }
+it.next(); // { value:3, done:false }
+it.next(); // { value:undefined, done:false }
+
+// myObject를 'for...of' 루프로 순회한다.
+for (var v of myObject) {
+    console.log( v );
+}
+// 2
+// 3
+```
+- 예제 코드에선 단순히 값 대 값으로 순회하고 있지만 필요에 따라 사용자 자료 구조에 딱 맞는 임의의 복잡한 순회 알고리즘을 정의할 수도 있다. ES6의 for...of 루프와 커스텀 순회자는 사용자 정의 객체를 조작하는 데 아주 탁월한 새로운 구문 도구`Syntactic Tool`다.
+
+## 3.5 정리하기
