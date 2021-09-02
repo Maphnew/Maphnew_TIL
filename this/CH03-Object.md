@@ -279,3 +279,71 @@ myObject.a; // 4
 - 예제에서 주어진 값 2는 실제로 다른 변수 `_a_`에 할당([[Put]]연산)한다. `_a_`라는 명칭은 순전히 관례상 붙인 것이고 로직과는 전혀 무관한 일반 프로퍼티다.
 
 ### 3.3.10 존재 확인
+- 객체에 어떤 프로퍼티가 존재하는지는 굳이 프로퍼티 값을 얻지 않고도 확인할 수 있다.
+```JS
+var myObject = {
+    a: 2
+};
+("a" in myObject); // true
+("b" in myObject); // false
+
+myObject.hasOwnProperty( "a" ); // true
+myObject.hasOwnProperty( "b" ); // false
+```
+- `in` 연산자는 어떤 프로퍼티가 해당 객체에 존재하는지 아니면 이 객체의 [[Prototype]] 연쇄를 따라갔을 때 상위 단계에 존재하는지 확인한다. 이와 달리 `hasOwnProperty()`는 단지 프로퍼티가 객체에 있는지만 확인하고 [[Prototype]] 연쇄는 찾지 않는다.
+- 거의 모든 일반 객체는 Object.prototype 위임을 통해 hasOwnProperty()에 접근할 수 있지만 간혹 (Object.create(null)) Object.prototype과 연결되지 않은 객체는 myObject.hasOwnProperty() 처럼 사용할 수 없다.
+- 이럴 경우엔 Object.prototype.hasOwnProperty.call(myObject, "a") 처럼 기본 hasOwnProperty() 메서드를 빌려와 myObject에 대해 명시적으로 바인딩하면 좀 더 확실하게 확인할 수 있다.
+
+#### 열거
+- 프로퍼티 서술자 속성 중 하나인 enumerable의 '열거 가능성' 개념으로 좀 더 자세히 살펴보자.
+```JS
+var = myObject = {};
+Object.defineProperty(
+    myObject,
+    "a",
+    // 'a'를 열거가 가능하게 세팅한다(기본값)
+    { enumerable: true, value: 2 }
+);
+Object.defineProperty(
+    myObject,
+    "b",
+    // 'b'를 열거가 불가능하게 세팅한다.
+    { enumerable: false, value: 3 }
+);
+myObject.b; // 3
+("b" in myObject); // true
+myObject.hasOwnProperty( "b" ); // true
+// ...
+for (var k in myObject) {
+    console.log( k, myObject[k] );
+}
+// "a" 2
+```
+- myObject.b는 실제 존재하는 프로퍼티로 그 값에도 접근할 수 있지만, for...in 루프에서는 자취를 감춰버린다. 이처럼 '열거 가능`Enumerable`' 하다는 건 기본적으로 '객체 프로퍼티 순회 리스트에 포함'된다는 뜻이다.
+- 프로퍼티가 열거 가능한지는 다른 방법으로도 확인할 수 있다.
+```JS
+var = myObject = {};
+Object.defineProperty(
+    myObject,
+    "a",
+    // 'a'를 열거가 가능하게 세팅한다(기본값)
+    { enumerable: true, value: 2 }
+);
+Object.defineProperty(
+    myObject,
+    "b",
+    // 'b'를 열거가 불가능하게 세팅한다.
+    { enumerable: false, value: 3 }
+);
+myObject.propertyIsEnumerable( "a" ); // true
+myObject.propertyIsEnumerable( "b" ); // false
+
+Object.key( myObject ); // ["a"]
+Object.getOwnPropertyNames( myObject ); // ["a", "b"]
+```
+
+- `propertyIsEnumerable()`은 어떤 프로퍼티가 해당 객체의 직속 프로퍼티인 동시에 enumerable:true인지 검사한다. Object.key()는 Object.getOwnPropertyNames()의 열거 가능 여부와 상관없이 객체에 있는 모든 열거 가능한 프로퍼티를 배열 형태로 반환한다.
+- in과 hasOwnProprerty()가 [[Prototype]] 연쇄의 확인에 따라 차이가 있는 반면, Object.keys()와 Object.getOwnProertyNames()는 모두 주어진 객체만 확인한다.
+- in 연산자와 결과가 동등한 프로퍼티 전체 리스트를 조회하는 기능은 (지금은) 없다. 단계마다 Object.keys()에서 열거 가능한 프로퍼티 리스트를 포착하여 재귀적으로 주어진 객체의 [[Property]] 연쇄를 순회하는 식의 로직을 구현하여 대략 비슷한 유틸리티를 만들어 쓰면 된다.
+
+## 3.4 순회
