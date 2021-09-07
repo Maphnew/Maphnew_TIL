@@ -17,14 +17,6 @@ function renderPlainText(data) {
     result += `총액: ${usd(data.totalAmount)}\n`;
     result += `적립 포인트: ${data.totalVolumeCredits}점\n`;
     return result;
-    
-    function usd(aNumber) {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2
-        }).format(aNumber/100);
-    }
 }
 
 function htmlStatement(invoice, plays) {
@@ -44,14 +36,15 @@ function renderHtml(data) {
     result += `<p>총액: <em>${usd(data.totalAmount)}</em></p>\n`;
     result += `<p>적립 포인트: <em>${data.totalVolumeCredits}</em>점</p>\n`;
     return result;
-    
-    function usd(aNumber) {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2
-        }).format(aNumber/100);
-    }
+}
+
+function usd(aNumber) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2
+    }).format(aNumber/100);
 }
 
 console.log(statement(invoice, plays));
+console.log(htmlStatement(invoice, plays));
