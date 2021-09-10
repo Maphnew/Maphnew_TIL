@@ -177,3 +177,49 @@ console.log(counter(decrease)); // 0
 - 대부분의 객체지향 프로그래밍 언어는 클래스를 정의하고 그 클래스를 구성하는 멤버(프로퍼티와 메서드)에 대하여 public, private, protected 같은 접근 제한자`access modifier`를 선언하여 공개 범위를 한정할 수 있다.
 - 자바스크립트는 public, private, protected 같은 접근 제한자를 제공하지 않는다. 따라서 자바스크립트 객체의 모든 프로퍼티와 메서드는 기본적으로 외부에 공개되어 있다. 즉, 객체의 모든 프로퍼티와 메서드는 기본적으로 public하다.
 - 자바스크립트는 정보 은닉을 완전하게 지원하지 않았지만 새로운 표준 사양이 나왔다. [Private class fields](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Classes/Private_class_fields)
+```JS
+class Person {
+  // private 필드 정의
+  #name = '';
+  
+  constructor(name) {
+    // private 필드 참조
+    this.#name = name;
+  }
+}
+
+const me = new Person('Lee');
+
+// private 필드 #name은 클래스 외부에서 참조할 수 없다.
+console.log(me.#name);
+// SyntaxError: Private field '#name' must be declared in an enclosing class
+```
+- 이처럼 클래스 외부에서 private 필드에 직접 접근할 수 있는 방법은 없다. 다만 접근자 프로퍼티를 통해 간접적으로 접근하는 방법은 유효하다.
+```JS
+class Person {
+  #name = '';
+  
+  constructor(name) {
+    this.#name = name;
+  }
+  
+  // name은 접근자 프로퍼티다.
+  get name() {
+    // private 필드를 참조하여 trim한 다음 반환한다.
+    return this.#name.trim();
+  }
+}
+
+const me = new Person('  Lee   ');
+console.log(me.name); // Lee
+```
+- private 필드는 반드시 클래스 몸체에 정의해야 한다. private 필드를 직접 constructor에 정의하면 에러가 발생한다.
+```JS
+class Person {
+  constructor(name) {
+    // private 필드는 클래스 몸체에서 정의해야 한다.
+    this.#name = name;
+    // SyntaxError: Private field '#name' must be declared in an enclosing class
+  }
+}
+```
