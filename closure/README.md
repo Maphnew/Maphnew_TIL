@@ -168,7 +168,7 @@ console.log(counter(increase)); // 2
 
 // 자유 변수를 공유한다.
 console.log(counter(decrease)); // 1
-console.log(counter(decrease); // 0
+console.log(counter(decrease)); // 0
 ```
 
 ## 24.5 캡슐화와 정보 은닉
