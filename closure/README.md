@@ -223,3 +223,54 @@ class Person {
   }
 }
 ```
+## 24.6 자주 발생하는 실수
+- 아래는 클로저를 사용할 때 자주 발생할 수 있는 실수를 보여주는 예제다.
+```JS
+var funcs = [];
+
+for (var i = 0; i < 3; i++) {
+    funcs[i] = function () { return i; };
+}
+
+for (var j = 0; j < funcs.length; j++) {
+    console.log(funcs[j]());
+}
+
+// 3
+// 3
+// 3
+```
+- var 키워드로 선언한 i 변수는 블록 레벨 스코프가 아닌 함수 레벨 스코프를 갖기 때문에 전역 변수다. 따라서 funcs 배열의 요소로 추가한 함수를 호출하면 전역 변수 i를 참조하여 i의 값 3이 출력된다.
+
+- 클로저를 사용해 위 예제를 바르게 동작하는 코드로 만들어 보자.
+```JS
+var funcs = [];
+
+for (var i = 0; i < 3; i++) {
+    funcs[i] = (function (id) {
+        return function() {
+            return id;
+        };
+    }(i));
+}
+
+for (var j = 0; j < funcs.length; j++) {
+    console.log(funcs[j]());
+}
+// 0
+// 1
+// 2
+```
+
+- ES6의 let 키워드를 사용하면 더 깔끔하게 해결된다.
+```JS
+var funcs = [];
+
+for (let i = 0; i < 3; i++) {
+    funcs[i] = function () { return i; };
+}
+
+for (let j = 0; j < funcs.length; j++) {
+    console.log(funcs[j]());
+}
+```
