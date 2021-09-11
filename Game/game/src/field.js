@@ -20,7 +20,7 @@ export default class Field {
         this._addItem('bug', this.bugCount, './img/bug.png');
     }
 
-    setClickLinstener(onItemClick) {
+    setClickListener(onItemClick) {
         this.onItemClick = onItemClick;
     }
 
